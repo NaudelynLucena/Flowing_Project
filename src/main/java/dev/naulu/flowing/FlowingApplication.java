@@ -1,4 +1,4 @@
-package naulu.dev.flowing;
+package dev.naulu.flowing;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
