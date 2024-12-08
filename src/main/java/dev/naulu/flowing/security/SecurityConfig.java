@@ -25,8 +25,8 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/auth/signup", "/api/auth/welcome").permitAll() // Rutas públicas
-                    .requestMatchers("/dashboard").authenticated() // El dashboard es solo para usuarios autenticados
+                    .requestMatchers("/api/auth/signup").permitAll() // Rutas públicas
+                    .requestMatchers("/dashboard", "/api/auth/welcome").authenticated() // El dashboard es solo para usuarios autenticados
                     .requestMatchers("/api/activities/**").authenticated() // Proteger todas las rutas de actividades
                     .anyRequest().authenticated() // Cualquier otra ruta requiere autenticación
                 )
