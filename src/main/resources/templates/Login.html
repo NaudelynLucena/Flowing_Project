@@ -59,7 +59,7 @@
     <p th:if="${param.error}" class="error-message">Invalid username or password. Please try again.</p>
 
     <!-- Formulario de inicio de sesión -->
-    <form action="/login" method="post">
+    <form action="/process-login" method="post">
         <input type="text" name="username" placeholder="Email" required>
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit">Login</button>
