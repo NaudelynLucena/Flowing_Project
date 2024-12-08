@@ -6,7 +6,6 @@ import dev.naulu.flowing.service.MessageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -35,35 +34,34 @@ public class AuthController {
     }
 
     @GetMapping("/welcome")
-    public ResponseEntity<?> getWelcomeMessage() {
-        try {
-            // 🔥 Obtiene el usuario autenticado desde el contexto de seguridad
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String email = authentication.getName();
+public ResponseEntity<?> getWelcomeMessage(Authentication authentication) {
+    try {
+        // 🔥 Obtiene el email del usuario autenticado
+        String email = authentication.getName();
+        
+        // 🔥 Busca al usuario por email
+        User user = authService.getUserByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-            // 🔥 Obtiene el usuario desde la base de datos
-            User user = authService.getUserByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+        // 🔥 Genera el mensaje diario
+        String message = messageService.getDailyMessage(user);
 
-            // 🔥 Genera el mensaje diario
-            String message = messageService.getDailyMessage(user);
-
-            // 🔥 Retorna una respuesta clara con el mensaje
-            return ResponseEntity.ok().body(
-                Map.of(
-                    "message", message,
-                    "user", user.getEmail(),
-                    "status", "success"
-                )
-            );
-        } catch (RuntimeException e) {
-            // Si hay un error, responde con un 404
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                Map.of(
-                    "message", e.getMessage(),
-                    "status", "error"
-                )
-            );
-        }
+        // 🔥 Retorna la respuesta de bienvenida
+        return ResponseEntity.ok().body(
+            Map.of(
+                "message", message,
+                "user", user.getName(),
+                "status", "success"
+            )
+        );
+    } catch (RuntimeException e) {
+        // Si hay error, responde con un 404
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+            Map.of(
+                "message", e.getMessage(),
+                "status", "error"
+            )
+        );
     }
+}
 }
