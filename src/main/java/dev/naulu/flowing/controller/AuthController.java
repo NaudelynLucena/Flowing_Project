@@ -3,11 +3,10 @@ package dev.naulu.flowing.controller;
 import dev.naulu.flowing.model.User;
 import dev.naulu.flowing.service.AuthService;
 import dev.naulu.flowing.service.MessageService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/api/auth")
 public class AuthController {
 
@@ -19,17 +18,24 @@ public class AuthController {
         this.messageService = messageService;
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
-        if (authService.emailExists(user.getEmail())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                .body("Email is already taken!");
-        }
-        authService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                            .body("User registered successfully!");
+    // Ruta para mostrar el formulario de registro
+    @GetMapping("/signup")
+    public String signupPage() {
+        return "signup"; // Se refiere a signup.html en la carpeta templates
     }
 
+    // Ruta para procesar el formulario de registro
+    @PostMapping("/signup")
+    public String registerUser(@ModelAttribute User user) {
+        if (authService.emailExists(user.getEmail())) {
+            // En caso de que el email ya exista, mostrar un mensaje de error
+            return "signup"; // Devolver a la página de signup con el error
+        }
+        authService.registerUser(user); // Registrar al usuario
+        return "redirect:/login"; // Redirigir a la página de login después de registrar
+    }
+
+    // Ruta para mostrar el mensaje de bienvenida
     @GetMapping("/welcome")
     public String getWelcomeMessage() {
         return messageService.getRandomMessage();
