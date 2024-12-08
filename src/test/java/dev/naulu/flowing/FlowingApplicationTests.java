@@ -1,4 +1,4 @@
-package naulu.dev.flowing;
+package dev.naulu.flowing;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

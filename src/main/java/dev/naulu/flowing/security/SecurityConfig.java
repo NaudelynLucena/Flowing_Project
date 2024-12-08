@@ -25,12 +25,15 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/auth/signup").permitAll() // Permitir registro
-                    .anyRequest().authenticated() // Proteger las demás rutas
+                    .requestMatchers("/api/auth/signup", "/api/auth/welcome").permitAll() // Rutas públicas
+                    .requestMatchers("/dashboard").authenticated() // El dashboard es solo para usuarios autenticados
+                    .requestMatchers("/api/activities/**").authenticated() // Proteger todas las rutas de actividades
+                    .anyRequest().authenticated() // Cualquier otra ruta requiere autenticación
                 )
                 .formLogin(form -> form
-                    .loginProcessingUrl("/login") // Procesa login desde esta URL
-                    .defaultSuccessUrl("/dashboard", true) // Redirección exitosa
+                    .loginProcessingUrl("/login") // Procesar login desde esta URL
+                    .defaultSuccessUrl("/dashboard", true) // Redirigir al dashboard tras iniciar sesión
+                    .failureUrl("/login?error=true") // Redirigir al login con ?error=true si falla
                     .permitAll()
                 )
                 .build();
