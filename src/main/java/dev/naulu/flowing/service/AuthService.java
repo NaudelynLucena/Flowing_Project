@@ -28,8 +28,8 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public Optional<User> getUserById(Long userId) {
+        return userRepository.findById(userId);
     }
 
     // 🔥 Nuevo método para buscar al usuario por email
