@@ -12,7 +12,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -32,7 +32,7 @@ public class User implements UserDetails {
     }
 
     public Long getId() {
-        return id;
+        return userId;
     }
 
     public String getEmail() {
