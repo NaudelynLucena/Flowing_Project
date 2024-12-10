@@ -21,12 +21,18 @@ public class Activity {
     @Column(nullable = false)
     private String benefits;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user; // Usuario que creó la actividad (puede ser null si es actividad general)
+
     public Activity() {}
 
-    public Activity(String name, String description, String mood) {
+    public Activity(String name, String description, String mood, String benefits, User user) {
         this.name = name;
         this.description = description;
         this.mood = mood;
+        this.benefits = benefits;
+        this.user = user;
     }
 
     // Getters y Setters
@@ -60,5 +66,21 @@ public class Activity {
 
     public void setMood(String mood) {
         this.mood = mood;
+    }
+
+    public String getBenefits() {
+        return benefits;
+    }
+
+    public void setBenefits(String benefits) {
+        this.benefits = benefits;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

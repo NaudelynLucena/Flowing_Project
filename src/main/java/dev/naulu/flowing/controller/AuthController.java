@@ -23,15 +23,15 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
-        if (authService.emailExists(user.getEmail())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                .body("Email is already taken!");
-        }
-        authService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                            .body("User registered successfully!");
+public ResponseEntity<String> registerUser(@RequestBody User user) {
+    if (authService.emailExists(user.getEmail())) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Email is already taken!");
     }
+    authService.registerUser(user);
+    return ResponseEntity.status(HttpStatus.CREATED)
+            .body("User registered successfully!");
+}
 
     @GetMapping("/welcome")
 public ResponseEntity<?> getWelcomeMessage(Authentication authentication) {

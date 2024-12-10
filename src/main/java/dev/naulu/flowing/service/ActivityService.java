@@ -2,10 +2,10 @@ package dev.naulu.flowing.service;
 
 import dev.naulu.flowing.model.Activity;
 import dev.naulu.flowing.repository.ActivityRepository;
+import dev.naulu.flowing.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ActivityService {
@@ -20,23 +20,27 @@ public class ActivityService {
         return repository.findAll();
     }
 
-    public Optional<Activity> getActivityById(Long id) {
-        return repository.findById(id);
+    public List<Activity> getActivitiesByMood(String mood) {
+        return repository.findByMood(mood);
     }
 
-    public Activity createActivity(Activity activity) {
+    public List<Activity> getActivitiesByMoodAndUser(String mood, Long userId) {
+        return repository.findByMoodAndUserId(mood, userId);
+    }
+
+    public Activity createActivity(String name, String description, String mood, String benefits, User user) {
+        Activity activity = new Activity(name, description, mood, benefits, user);
         return repository.save(activity);
     }
 
-    public Activity updateActivity(Long id, Activity newActivity) {
-        return repository.findById(id)
-                .map(activity -> {
-                    activity.setName(newActivity.getName());
-                    activity.setDescription(newActivity.getDescription());
-                    activity.setMood(newActivity.getMood());
-                    return repository.save(activity);
-                })
+    public Activity updateActivity(Long id, String name, String description, String mood, String benefits) {
+        Activity activity = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Activity not found"));
+        activity.setName(name);
+        activity.setDescription(description);
+        activity.setMood(mood);
+        activity.setBenefits(benefits);
+        return repository.save(activity);
     }
 
     public void deleteActivity(Long id) {
