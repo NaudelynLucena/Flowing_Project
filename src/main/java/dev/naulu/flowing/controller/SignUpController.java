@@ -15,7 +15,7 @@ public class SignUpController {
         this.authService = authService;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/api/signup")
 public ResponseEntity<String> registerUser(@RequestBody User user) {
     if (authService.emailExists(user.getEmail())) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
