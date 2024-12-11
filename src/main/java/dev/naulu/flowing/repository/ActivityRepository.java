@@ -8,4 +8,5 @@ import java.util.List;
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
     List<Activity> findByMood(String mood);
     List<Activity> findByMoodAndUserId(String mood, Long userId);
+    List<Activity> findByUserId(Long userId);
 }
