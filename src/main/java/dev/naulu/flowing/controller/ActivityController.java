@@ -20,10 +20,18 @@ public class ActivityController {
         this.userService = userService;
     }
 
-    // 🚀 Obtener todas las actividades disponibles
+    // 🚀 Endpoint para GET /api/activities/ (sin parámetros)
     @GetMapping
-    public List<Activity> getAllActivities() {
-        return service.getAllActivities();
+    public List<Activity> getAllActivitiesForAuthenticatedUser(Authentication authentication) {
+        String email = authentication.getName(); // 🔥 Obtener el email del usuario autenticado
+        Long userId = userService.getUserIdByUsername(email);
+        return service.getAllActivities(userId);
+    }
+
+    // 🚀 Obtener actividades para un usuario por ID (si se requiere)
+    @GetMapping("/{userId}")
+    public List<Activity> getAllActivities(@PathVariable Long userId) {
+        return service.getAllActivities(userId);
     }
 
     // 🚀 Obtener actividades basadas en el estado de ánimo y el usuario autenticado
