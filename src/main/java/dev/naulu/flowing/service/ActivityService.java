@@ -16,8 +16,8 @@ public class ActivityService {
         this.repository = repository;
     }
 
-    public List<Activity> getAllActivities() {
-        return repository.findAll();
+    public List<Activity> getAllActivities(Long userId) {
+        return repository.findByUserId(userId);
     }
 
     public List<Activity> getActivitiesByMood(String mood) {
