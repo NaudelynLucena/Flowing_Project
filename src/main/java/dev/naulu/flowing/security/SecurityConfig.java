@@ -1,59 +1,52 @@
 package dev.naulu.flowing.security;
 
-import dev.naulu.flowing.service.UserService;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@org.springframework.context.annotation.Configuration
+@EnableWebSecurity
+@Configuration
 public class SecurityConfig {
-
-    private final UserService userService;
-
-    public SecurityConfig(UserService userService) {
-        this.userService = userService;
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/auth/signup", "/api/auth/welcome").permitAll() // Rutas públicas
-                    .requestMatchers("/dashboard").authenticated() // El dashboard es solo para usuarios autenticados
-                    .requestMatchers("/api/activities/**").authenticated() // Proteger todas las rutas de actividades
-                    .anyRequest().authenticated() // Cualquier otra ruta requiere autenticación
-                )
-                .formLogin(form -> form
-                    .loginProcessingUrl("/login") // Procesar login desde esta URL
-                    .defaultSuccessUrl("/dashboard", true) // Redirigir al dashboard tras iniciar sesión
-                    .failureUrl("/login?error=true") // Redirigir al login con ?error=true si falla
-                    .permitAll()
-                )
-                .build();
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); // Utiliza BCrypt para cifrado de contraseñas
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(request -> 
+            request
+                    .requestMatchers("/api/signup").permitAll() // Permitir registro sin autenticar
+                    .requestMatchers("/dashboard", "/api/auth/welcome").authenticated() // Rutas protegidas
+                    .requestMatchers("/api/activities/**").hasRole("USER") // Solo acceso para usuarios con rol USER
+                    .requestMatchers("/api/mood/**").hasRole("USER") // Solo acceso para usuarios con rol USER
+                    .anyRequest().authenticated() // Requiere autenticación para cualquier otra ruta
+            )
+            //.formLogin(Customizer.withDefaults());
+        //http
+            .httpBasic(Customizer.withDefaults())
+            //.formLogin(Customizer.withDefaults())
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+            );
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
+        http.sessionManagement(session -> session
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        );
+
+        http.cors(Customizer.withDefaults());
+
+        http.exceptionHandling(Customizer.withDefaults());
+
+        return http.build();
     }
 }

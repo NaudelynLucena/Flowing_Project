@@ -2,6 +2,9 @@ package dev.naulu.flowing.service;
 
 import dev.naulu.flowing.model.User;
 import dev.naulu.flowing.repository.UserRepository;
+
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +26,14 @@ public class AuthService {
     public void registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+    }
+
+    public Optional<User> getUserById(Long userId) {
+        return userRepository.findById(userId);
+    }
+
+    // 🔥 Nuevo método para buscar al usuario por email
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
