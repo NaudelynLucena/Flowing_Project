@@ -63,3 +63,7 @@ Se utilizará Git y GitHub para llevar un control de los cambios en el código.
 [FlowingER](https://github.com/NaudelynLucena/Flowing_Project/blob/dev/FlowingER.png)
 
 [FlowingClases](https://github.com/NaudelynLucena/Flowing_Project/blob/dev/FlowingUML.png)
+
+## Testing
+
+[TestCoverage](https://github.com/NaudelynLucena/Flowing_Project/blob/dev/TestCoverage_Flowing.png)
