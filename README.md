@@ -1,6 +1,6 @@
-# FLOWING
+![banner para github](https://github.com/NaudelynLucena/Flowing_Project/blob/main/src/main/resources/Flowing_img.png)
 
-[FlowingProject](https://github.com/NaudelynLucena/Flowing_Project/blob/dev/Flowing_img.png)
+# FLOWING
 
 ## Información y descripción general
 
@@ -60,10 +60,10 @@ Se utilizará Git y GitHub para llevar un control de los cambios en el código.
 
 ## Diagrama UML
 
-[FlowingER](https://github.com/NaudelynLucena/Flowing_Project/blob/dev/FlowingER.png)
+![FlowingER](https://github.com/NaudelynLucena/Flowing_Project/blob/main/src/main/resources/FlowingER.png)
 
-[FlowingClases](https://github.com/NaudelynLucena/Flowing_Project/blob/dev/FlowingUML.png)
+![FlowingClases](https://github.com/NaudelynLucena/Flowing_Project/blob/main/src/main/resources/FlowingUML.png)
 
 ## Testing
 
-[TestCoverage](https://github.com/NaudelynLucena/Flowing_Project/blob/dev/TestCoverage_Flowing.png)
+![TestCoverage](https://github.com/NaudelynLucena/Flowing_Project/blob/main/src/main/resources/TestCoverage_Flowing.png)
