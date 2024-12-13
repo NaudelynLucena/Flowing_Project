@@ -2,6 +2,7 @@ package dev.naulu.flowing.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 public class MoodRecord {
@@ -12,13 +13,13 @@ public class MoodRecord {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user; // Relacionado con el usuario
+    private User user;
 
     @Column(nullable = false)
-    private String mood; // El estado de ánimo del usuario
+    private String mood;
 
     @Column(nullable = false)
-    private LocalDate date; // Fecha del registro del estado de ánimo
+    private LocalDate date;
 
     public MoodRecord() {}
 
@@ -28,7 +29,6 @@ public class MoodRecord {
         this.date = date;
     }
 
-    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -60,4 +60,20 @@ public class MoodRecord {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    @Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    MoodRecord that = (MoodRecord) o;
+    return Objects.equals(user, that.user) &&
+            Objects.equals(mood, that.mood) &&
+            Objects.equals(date, that.date);
+}
+
+@Override
+public int hashCode() {
+    return Objects.hash(user, mood, date);
+}
+
 }

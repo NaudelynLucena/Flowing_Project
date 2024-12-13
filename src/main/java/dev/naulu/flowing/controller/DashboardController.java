@@ -13,13 +13,9 @@ public class DashboardController {
         if (authentication == null || !authentication.isAuthenticated()) {
             return "Acceso no autorizado.";
         }
-        // Convierte el principal a la entidad User
+        
         User user = (User) authentication.getPrincipal();
-
-        // Recupera el nombre del usuario
         String name = user.getName();
-
-        // Construye el mensaje de bienvenida personalizado
         return "Hola, " + name + "! Bienvenido a Flowing!";
     }
 }

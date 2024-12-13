@@ -36,17 +36,12 @@ public ResponseEntity<String> registerUser(@RequestBody User user) {
     @GetMapping("/welcome")
 public ResponseEntity<?> getWelcomeMessage(Authentication authentication) {
     try {
-        // 🔥 Obtiene el email del usuario autenticado
         String email = authentication.getName();
         
-        // 🔥 Busca al usuario por email
         User user = authService.getUserByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // 🔥 Genera el mensaje diario
         String message = messageService.getDailyMessage(user);
-
-        // 🔥 Retorna la respuesta de bienvenida
         return ResponseEntity.ok().body(
             Map.of(
                 "message", message,
@@ -55,7 +50,6 @@ public ResponseEntity<?> getWelcomeMessage(Authentication authentication) {
             )
         );
     } catch (RuntimeException e) {
-        // Si hay error, responde con un 404
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
             Map.of(
                 "message", e.getMessage(),

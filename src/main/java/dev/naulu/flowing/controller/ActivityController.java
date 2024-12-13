@@ -20,43 +20,38 @@ public class ActivityController {
         this.userService = userService;
     }
 
-    // 🚀 Endpoint para GET /api/activities/ (sin parámetros)
     @GetMapping
     public List<Activity> getAllActivitiesForAuthenticatedUser(Authentication authentication) {
-        String email = authentication.getName(); // 🔥 Obtener el email del usuario autenticado
+        String email = authentication.getName();
         Long userId = userService.getUserIdByUsername(email);
         return service.getAllActivities(userId);
     }
 
-    // 🚀 Obtener actividades para un usuario por ID (si se requiere)
     @GetMapping("/{userId}")
     public List<Activity> getAllActivities(@PathVariable Long userId) {
         return service.getAllActivities(userId);
     }
 
-    // 🚀 Obtener actividades basadas en el estado de ánimo y el usuario autenticado
     @GetMapping("/mood/{mood}")
     public List<Activity> getActivitiesByMood(@PathVariable String mood, Authentication authentication) {
-        String email = authentication.getName(); // 🔥 Obtener el email del usuario autenticado
+        String email = authentication.getName();
         Long userId = userService.getUserIdByUsername(email);
         return service.getActivitiesByMoodAndUser(mood, userId);
     }
 
-    // 🚀 Crear una actividad vinculada al usuario autenticado
     @PostMapping
     public Activity createActivity(@RequestBody Activity activity, Authentication authentication) {
-        String email = authentication.getName(); // 🔥 Obtener el email del usuario autenticado
+        String email = authentication.getName();
         Long userId = userService.getUserIdByUsername(email);
         return service.createActivity(
             activity.getName(),
             activity.getDescription(),
             activity.getMood(),
             activity.getBenefits(),
-            userService.findUserById(userId) // 🔥 Recuperar la entidad User
+            userService.findUserById(userId)
         );
     }
 
-    // 🚀 Actualizar una actividad
     @PutMapping("/{id}")
     public Activity updateActivity(@PathVariable Long id, @RequestBody Activity activity) {
         return service.updateActivity(
@@ -68,7 +63,6 @@ public class ActivityController {
         );
     }
 
-    // 🚀 Eliminar una actividad
     @DeleteMapping("/{id}")
     public void deleteActivity(@PathVariable Long id) {
         service.deleteActivity(id);

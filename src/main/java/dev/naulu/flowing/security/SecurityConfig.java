@@ -16,7 +16,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Utiliza BCrypt para cifrado de contraseñas
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -24,11 +24,11 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(request -> 
             request
-                    .requestMatchers("/api/signup").permitAll() // Permitir registro sin autenticar
-                    .requestMatchers("/dashboard", "/api/auth/welcome").authenticated() // Rutas protegidas
-                    .requestMatchers("/api/activities/**").hasRole("USER") // Solo acceso para usuarios con rol USER
-                    .requestMatchers("/api/mood/**").hasRole("USER") // Solo acceso para usuarios con rol USER
-                    .anyRequest().authenticated() // Requiere autenticación para cualquier otra ruta
+                    .requestMatchers("/api/signup").permitAll()
+                    .requestMatchers("/dashboard", "/api/auth/welcome").authenticated()
+                    .requestMatchers("/api/activities/**").hasRole("USER")
+                    .requestMatchers("/api/mood/**").hasRole("USER")
+                    .anyRequest().authenticated()
             )
             //.formLogin(Customizer.withDefaults());
         //http

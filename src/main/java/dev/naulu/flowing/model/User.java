@@ -36,6 +36,10 @@ public class User implements UserDetails {
         return id;
     }
 
+    public void setId(long l) {
+        this.id = l;
+    }
+
     public String getEmail() {
         return email;
     }

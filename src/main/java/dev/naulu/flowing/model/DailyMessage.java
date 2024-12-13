@@ -2,6 +2,7 @@ package dev.naulu.flowing.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 public class DailyMessage {
@@ -18,7 +19,7 @@ public class DailyMessage {
     private String message;
 
     @Column(nullable = false)
-    private LocalDate date; // La fecha en la que se mostró el mensaje
+    private LocalDate date;
 
     public DailyMessage() {}
 
@@ -28,7 +29,6 @@ public class DailyMessage {
         this.date = date;
     }
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -59,5 +59,20 @@ public class DailyMessage {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+    
+@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DailyMessage that = (DailyMessage) o;
+        return Objects.equals(user, that.user) &&
+                Objects.equals(message, that.message) &&
+                Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user, message, date);
     }
 }

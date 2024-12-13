@@ -16,13 +16,11 @@ public class MoodRecordController {
         this.service = service;
     }
 
-    // Obtener todos los registros de estado de ánimo de un usuario
     @GetMapping("/user/{userId}")
     public List<MoodRecord> getMoodRecords(@PathVariable Long userId) {
         return service.getMoodRecordsByUser(userId);
     }
 
-    // Registrar un nuevo estado de ánimo
     @PostMapping("/user/{userId}")
     public MoodRecord recordMood(@PathVariable Long userId, @RequestBody String mood) {
         return service.recordMood(userId, mood);

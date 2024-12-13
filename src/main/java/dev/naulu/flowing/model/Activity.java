@@ -16,14 +16,14 @@ public class Activity {
     private String description;
 
     @Column(nullable = false)
-    private String mood; // Estado de ánimo asociado
+    private String mood;
 
     @Column(nullable = false)
     private String benefits;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user; // Usuario que creó la actividad (puede ser null si es actividad general)
+    private User user;
 
     public Activity() {}
 
@@ -35,7 +35,6 @@ public class Activity {
         this.user = user;
     }
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }

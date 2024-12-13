@@ -32,7 +32,6 @@ public class AuthService {
         return userRepository.findById(userId);
     }
 
-    // 🔥 Nuevo método para buscar al usuario por email
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }

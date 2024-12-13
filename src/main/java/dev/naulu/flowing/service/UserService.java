@@ -22,14 +22,12 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
     }
 
-    // 🚀 Obtiene el ID de un usuario por su email
     public Long getUserIdByUsername(String email) {
         return userRepository.findByEmail(email)
                 .map(User::getId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
     }
 
-    // 🚀 Recupera la entidad User por su ID
     public User findUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
